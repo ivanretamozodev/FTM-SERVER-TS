@@ -19,6 +19,10 @@ const UserSchema = new Schema<User>(
         description: {
             type: String,
         },
+        isAdmin: {
+            type: Boolean,
+            default: false,
+        },
     },
     {
         versionKey: false,

@@ -1,6 +1,7 @@
 import { Auth } from '../interfaces/auth.interface';
 import { User } from '../interfaces/user.interface';
 import userModel from '../models/user.model';
+import { generateToken } from '../utils/jwtHandler';
 import { enctrypt, verifyPassword } from '../utils/passwordHandler';
 
 const registerNewUser = async ({ email, password, name }: User) => {
@@ -17,7 +18,10 @@ const loginNewUser = async ({ email, password }: Auth) => {
     const passwordHash = userExist.password;
     const isValid = await verifyPassword(password, passwordHash);
     if (!isValid) return 'WRONG_PASSWORD';
-    return userExist;
+
+    const token = generateToken(userExist.id, userExist.isAdmin);
+
+    return token;
 };
 
 export { registerNewUser, loginNewUser };

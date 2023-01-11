@@ -3,10 +3,10 @@ import { getItems, getItem, postItem, updateItem, deleteItem } from '../controll
 import { checkSession } from '../middlewares/session';
 const router = Router();
 
-router.get('/', checkSession, getItems);
+router.get('/', getItems);
 router.get('/:id', getItem);
-router.post('/', postItem);
-router.put('/:id', updateItem);
-router.delete('/:id', deleteItem);
+router.post('/', checkSession, postItem);
+router.put('/:id', checkSession, updateItem);
+router.delete('/:id', checkSession, deleteItem);
 
 export { router };

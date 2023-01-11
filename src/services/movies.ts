@@ -2,12 +2,12 @@ import { Movie } from '../interfaces/movie.interface';
 import movieModel from '../models/movies.model';
 
 const getAllMovies = async () => {
-    const movie = movieModel.find({});
+    const movie = movieModel.find({}).select('image name year rating');
     return movie;
 };
 
 const getMovieDetails = async (id: string) => {
-    const movie = await movieModel.findOne({ _id: id });
+    const movie = await movieModel.findOne({ _id: id }).populate('genres', 'name');
     return movie;
 };
 

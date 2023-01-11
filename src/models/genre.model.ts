@@ -6,6 +6,7 @@ const GenreSchema = new Schema<Genre>(
         name: {
             type: String,
             required: true,
+            unique: true,
         },
     },
     {

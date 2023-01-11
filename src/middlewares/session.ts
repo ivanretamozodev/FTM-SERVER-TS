@@ -6,10 +6,10 @@ const checkSession = async (req: Request, res: Response, next: NextFunction) => 
         const jwtByUser = req.headers.authorization || '';
         const jwt = jwtByUser.split(' ').pop();
         const isUser = verifyToken(`${jwt}`);
-
         if (!isUser) {
             return res.status(401).send('INVALID_JWT');
         } else {
+            req.body.user = isUser;
             next();
         }
     } catch (e) {

@@ -19,7 +19,7 @@ const loginNewUser = async ({ email, password }: Auth) => {
     const isValid = await verifyPassword(password, passwordHash);
     if (!isValid) return 'WRONG_PASSWORD';
 
-    const token = generateToken(userExist.id, userExist.isAdmin);
+    const token = generateToken(userExist.id);
 
     return token;
 };

@@ -1,12 +1,16 @@
 import { sign, verify } from 'jsonwebtoken';
-const JWT_SECRET = process.env.JWT_SECRET || 'Secret';
+const JWT_SECRET = process.env.JWT_SECRET || 'PUT_YOUR_SECRET_KEY_HERE';
 
-const generateToken = async (id: string, isAdmin: boolean) => {
-    const jwt = sign({ id, isAdmin }, JWT_SECRET, {
+const generateToken = (id: string) => {
+    const jwt = sign({ id }, JWT_SECRET, {
         expiresIn: '1d',
     });
-    console.log(jwt);
     return jwt;
 };
 
-export { generateToken };
+const verifyToken = (jwt: string) => {
+    const isValid = verify(jwt, JWT_SECRET);
+    return isValid;
+};
+
+export { generateToken, verifyToken };

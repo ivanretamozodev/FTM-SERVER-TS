@@ -3,16 +3,9 @@ import { Genre } from '../interfaces/genre.interface';
 
 const GenreSchema = new Schema<Genre>(
     {
-        name: {
-            type: String,
-            required: true,
-            unique: true,
-        },
+        name: { type: String, required: true, unique: true },
     },
-    {
-        versionKey: false,
-        timestamps: true,
-    }
+    { versionKey: false, timestamps: true }
 );
 
 const genreModel = model('Genre', GenreSchema);

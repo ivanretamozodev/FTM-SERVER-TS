@@ -12,6 +12,7 @@ const MovieSchema = new Schema<Movie>(
         genres: [{ type: mongoose.Types.ObjectId, ref: 'Genre' }],
         link: { type: String, required: true },
         trailer: { type: String, required: true },
+        featured: { type: Boolean, default: false },
     },
     { versionKey: false, timestamps: true }
 );

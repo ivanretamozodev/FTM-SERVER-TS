@@ -14,7 +14,16 @@ const registerNewUser = async ({ email, password, name }: User) => {
     const user = new userModel({ email, password: passwordHash, name });
     //procedemos a guardar sus credenciales
     await user.save();
-    return user;
+    //le entregamos un nuevo jwt
+    const token = generateToken(user.id, user.role);
+    //
+    const data = {
+        success: true,
+        id: user.id,
+        name,
+        token,
+    };
+    return data;
 };
 const loginNewUser = async ({ email, password }: Auth) => {
     //comprobamos si el usuario existe
@@ -29,7 +38,14 @@ const loginNewUser = async ({ email, password }: Auth) => {
     //le entregamos un nuevo jwt
     const token = generateToken(userExist.id, userExist.role);
 
-    return token;
+    const data = {
+        success: true,
+        id: userExist._id,
+        name: userExist.name,
+        token,
+    };
+
+    return data;
 };
 
 export { registerNewUser, loginNewUser };

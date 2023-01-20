@@ -4,6 +4,8 @@ import { Genre } from '../interfaces/genre.interface';
 const GenreSchema = new Schema<Genre>(
     {
         name: { type: String, required: true, unique: true },
+        color: { type: String, required: true, unique: true },
+        icon: { type: String, required: true, unique: true },
     },
     { versionKey: false, timestamps: true }
 );

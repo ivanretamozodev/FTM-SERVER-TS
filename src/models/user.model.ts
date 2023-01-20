@@ -13,6 +13,11 @@ const UserSchema = new Schema<User>(
     { versionKey: false, timestamps: true }
 );
 
+UserSchema.virtual('id').get(function () {
+    return this._id.toHexString();
+});
+UserSchema.set('toJSON', { virtuals: true });
+
 const userModel = model('User', UserSchema);
 
 export default userModel;

@@ -10,4 +10,5 @@ export interface Movie {
     description: string;
     link: String;
     trailer: string;
+    featured: boolean;
 }

@@ -6,9 +6,7 @@ export interface Movie {
     genres: Array<Types.ObjectId>;
     rating: Number;
     posterImage: string;
-    backgroundImage: string;
     description: string;
-    link: String;
-    trailer: string;
     featured: boolean;
+    link: String;
 }

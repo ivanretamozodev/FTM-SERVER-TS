@@ -7,11 +7,9 @@ const MovieSchema = new Schema<Movie>(
         year: { type: String, required: true },
         rating: { type: Number, default: 0 },
         posterImage: { type: String, required: true },
-        backgroundImage: { type: String, required: true },
         description: { type: String, required: true },
         genres: [{ type: mongoose.Types.ObjectId, ref: 'Genre' }],
         link: { type: String, required: true },
-        trailer: { type: String, required: true },
         featured: { type: Boolean, default: false },
     },
     { versionKey: false, timestamps: true }

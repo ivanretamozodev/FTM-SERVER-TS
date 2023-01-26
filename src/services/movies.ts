@@ -2,7 +2,7 @@ import { Movie } from '../interfaces/movie.interface';
 import movieModel from '../models/movies.model';
 
 const getAllMovies = async () => {
-    const movie = movieModel.find({}).select('image name year rating');
+    const movie = await movieModel.find({}).select('posterImage');
     return movie;
 };
 
@@ -27,4 +27,10 @@ const deleteMovie = async (id: string) => {
     return { success: true };
 };
 
-export { insertMovie, getAllMovies, getMovieDetails, updateMovie, deleteMovie };
+const getFeaturedMovies = async () => {
+    const query = { featured: true };
+    const movie = await movieModel.find(query).select('posterImage description name');
+    return movie;
+};
+
+export { insertMovie, getAllMovies, getMovieDetails, updateMovie, deleteMovie, getFeaturedMovies };

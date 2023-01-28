@@ -1,8 +1,23 @@
 import { Movie } from '../interfaces/movie.interface';
 import movieModel from '../models/movies.model';
 
-const getAllMovies = async () => {
-    const movie = await movieModel.find({}).select('posterImage');
+const getAllMovies = async (page: number, limit: number) => {
+    const [movies, totalPages] = await Promise.all([
+        movieModel
+            .find({})
+            .limit(limit)
+            .skip((page - 1) * limit)
+            .select('posterImage'),
+        movieModel.countDocuments().then((total: number) => {
+            return Math.ceil(total / limit);
+        }),
+    ]);
+
+    const movie = {
+        currentPage: page,
+        movies,
+        totalPages,
+    };
     return movie;
 };
 

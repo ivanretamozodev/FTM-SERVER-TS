@@ -6,6 +6,7 @@ import {
     insertMovie,
     updateMovie,
     getFeaturedMovies,
+    getMostValoratedMovies,
 } from '../services/movies';
 import { handleHttp } from '../utils/errorHandler';
 
@@ -32,6 +33,15 @@ const getItems = async (req: Request, res: Response) => {
 const getFeatureItems = async (req: Request, res: Response) => {
     try {
         const response = await getFeaturedMovies();
+        res.status(200).json({ success: true, results: response });
+    } catch (e) {
+        handleHttp(res, 'ERROR_GET_FEATURED_ITEMS');
+    }
+};
+
+const getMostValoratedItems = async (req: Request, res: Response) => {
+    try {
+        const response = await getMostValoratedMovies();
         res.status(200).json({ success: true, results: response });
     } catch (e) {
         handleHttp(res, 'ERROR_GET_FEATURED_ITEMS');
@@ -74,4 +84,4 @@ const deleteItem = async ({ params }: Request, res: Response) => {
     }
 };
 
-export { getItems, getItem, postItem, updateItem, deleteItem, getFeatureItems };
+export { getItems, getItem, postItem, updateItem, deleteItem, getFeatureItems, getMostValoratedItems };

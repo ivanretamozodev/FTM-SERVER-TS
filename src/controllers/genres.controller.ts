@@ -4,8 +4,8 @@ import { handleHttp } from '../utils/errorHandler';
 
 const getItems = async (req: Request, res: Response) => {
     try {
-        const response = await getAllGenres();
-        res.status(200).json(response);
+        const { genres, length } = await getAllGenres();
+        res.status(200).json({ success: true, length, genres });
     } catch (e) {
         handleHttp(res, 'ERROR_GET_GENRES');
     }

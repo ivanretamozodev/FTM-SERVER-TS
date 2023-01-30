@@ -1,9 +1,18 @@
 import { Router } from 'express';
-import { getItems, getItem, postItem, updateItem, deleteItem, getFeatureItems } from '../controllers/movies.controller';
+import {
+    getItems,
+    getItem,
+    postItem,
+    updateItem,
+    deleteItem,
+    getFeatureItems,
+    getMostValoratedItems,
+} from '../controllers/movies.controller';
 import { isAdmin } from '../middlewares/admin';
 import { checkSession } from '../middlewares/session';
 const router = Router();
 
+router.get('/valorated', getMostValoratedItems);
 router.get('/featured', getFeatureItems);
 router.get('/', getItems);
 router.get('/:id', getItem);

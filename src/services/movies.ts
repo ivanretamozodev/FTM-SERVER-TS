@@ -44,8 +44,21 @@ const deleteMovie = async (id: string) => {
 
 const getFeaturedMovies = async () => {
     const query = { featured: true };
-    const movie = await movieModel.find(query).select('posterImage description name');
+    const movie = await movieModel.find(query).select('posterImage description name rating');
     return movie;
 };
 
-export { insertMovie, getAllMovies, getMovieDetails, updateMovie, deleteMovie, getFeaturedMovies };
+const getMostValoratedMovies = async () => {
+    const movie = await movieModel.find({ rating: { $gt: 7 } }).select('posterImage description name rating');
+    return movie;
+};
+
+export {
+    insertMovie,
+    getAllMovies,
+    getMovieDetails,
+    updateMovie,
+    deleteMovie,
+    getFeaturedMovies,
+    getMostValoratedMovies,
+};

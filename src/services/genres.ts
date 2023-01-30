@@ -3,7 +3,11 @@ import { Movie } from '../interfaces/movie.interface';
 import genreModel from '../models/genre.model';
 
 const getAllGenres = async () => {
-    const genre = genreModel.find({});
+    const [genres, length] = await Promise.all([genreModel.find({}), genreModel.countDocuments()]);
+    const genre = {
+        length,
+        genres,
+    };
     return genre;
 };
 

@@ -7,7 +7,8 @@ const getAllMovies = async (page: number, limit: number) => {
             .find({})
             .limit(limit)
             .skip((page - 1) * limit)
-            .select('posterImage'),
+            .sort({ createdAt: -1 })
+            .select('posterImage featured'),
         movieModel.countDocuments().then((total: number) => {
             return Math.ceil(total / limit);
         }),
@@ -44,7 +45,7 @@ const deleteMovie = async (id: string) => {
 
 const getFeaturedMovies = async () => {
     const query = { featured: true };
-    const movie = await movieModel.find(query).select('posterImage description name rating');
+    const movie = await movieModel.find(query).select('posterImage description name rating featured');
     return movie;
 };
 
@@ -52,7 +53,10 @@ const getMostValoratedMovies = async () => {
     const movie = await movieModel.find({ rating: { $gt: 7 } }).select('posterImage description name rating');
     return movie;
 };
-
+const getMoviesByGenre = async (genre: string) => {
+    const movies = await movieModel.find({ genres: { $all: [genre] } }).select('name');
+    return movies;
+};
 export {
     insertMovie,
     getAllMovies,
@@ -61,4 +65,5 @@ export {
     deleteMovie,
     getFeaturedMovies,
     getMostValoratedMovies,
+    getMoviesByGenre,
 };

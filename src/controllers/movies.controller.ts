@@ -7,6 +7,7 @@ import {
     updateMovie,
     getFeaturedMovies,
     getMostValoratedMovies,
+    getMoviesByGenre,
 } from '../services/movies';
 import { handleHttp } from '../utils/errorHandler';
 
@@ -48,6 +49,15 @@ const getMostValoratedItems = async (req: Request, res: Response) => {
     }
 };
 
+const getItemByGenre = async (req: Request, res: Response) => {
+    try {
+        const movies = await getMoviesByGenre(`${req.query.genre}`);
+        res.status(200).json({ success: true, movies });
+    } catch (error) {
+        handleHttp(res, 'ERROR_GET_GENRE_ITEMS');
+    }
+};
+
 const getItem = async ({ params }: Request, res: Response) => {
     try {
         const response = await getMovieDetails(params.id);
@@ -84,4 +94,4 @@ const deleteItem = async ({ params }: Request, res: Response) => {
     }
 };
 
-export { getItems, getItem, postItem, updateItem, deleteItem, getFeatureItems, getMostValoratedItems };
+export { getItems, getItem, postItem, updateItem, deleteItem, getFeatureItems, getMostValoratedItems, getItemByGenre };

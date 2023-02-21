@@ -8,7 +8,7 @@ const getAllMovies = async (page: number, limit: number) => {
             .limit(limit)
             .skip((page - 1) * limit)
             .sort({ createdAt: -1 })
-            .select('posterImage featured'),
+            .select('posterImage featured link4k'),
         movieModel.countDocuments().then((total: number) => {
             return Math.ceil(total / limit);
         }),
@@ -45,17 +45,40 @@ const deleteMovie = async (id: string) => {
 
 const getFeaturedMovies = async () => {
     const query = { featured: true };
-    const movie = await movieModel.find(query).select('posterImage description name rating featured');
+    const movie = await movieModel
+        .find(query)
+        .sort({ createdAt: -1 })
+        .select('posterImage description name rating featured');
     return movie;
 };
 
 const getMostValoratedMovies = async () => {
-    const movie = await movieModel.find({ rating: { $gt: 7 } }).select('posterImage description name rating');
+    const movie = await movieModel
+        .find({ rating: { $gt: 7 } })
+        .sort({ createdAt: -1 })
+        .select('posterImage description name rating');
     return movie;
 };
-const getMoviesByGenre = async (genre: string) => {
-    const movies = await movieModel.find({ genres: { $all: [genre] } }).select('name');
-    return movies;
+const getMoviesByGenre = async (page: number, genre: string, limit: number = 16) => {
+    /* const movies = await movieModel.find({ genres: { $all: [genre] } }).select('name'); */
+    const [movies, totalPages] = await Promise.all([
+        movieModel
+            .find({ genres: { $all: [genre] } })
+            .limit(limit)
+            .skip((page - 1) * limit)
+            .sort({ createdAt: -1 })
+            .select('posterImage featured'),
+        movieModel.countDocuments({ genres: { $all: [genre] } }).then((total: number) => {
+            return Math.ceil(total / limit);
+        }),
+    ]);
+
+    const movie = {
+        currentPage: page,
+        movies,
+        totalPages,
+    };
+    return movie;
 };
 export {
     insertMovie,

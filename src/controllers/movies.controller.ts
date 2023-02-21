@@ -51,8 +51,13 @@ const getMostValoratedItems = async (req: Request, res: Response) => {
 
 const getItemByGenre = async (req: Request, res: Response) => {
     try {
-        const movies = await getMoviesByGenre(`${req.query.genre}`);
-        res.status(200).json({ success: true, movies });
+        const page: number = Number(req.query.page) || 1;
+        const limit: number = Number(req.query.limit) || 10;
+        const { movies, totalPages, currentPage } = await getMoviesByGenre(page, `${req.query.genre}`, limit);
+        if (currentPage > totalPages) {
+            return res.status(400).json({ success: false, message: 'PAGE_NOT_EXIST' });
+        }
+        res.status(200).json({ success: true, currentPage, totalPages, movies });
     } catch (error) {
         handleHttp(res, 'ERROR_GET_GENRE_ITEMS');
     }
@@ -70,7 +75,7 @@ const getItem = async ({ params }: Request, res: Response) => {
 const postItem = async ({ body }: Request, res: Response) => {
     try {
         const response = await insertMovie(body);
-        res.send(response);
+        res.status(200).json({ success: true });
     } catch (e) {
         handleHttp(res, 'ERROR_CREATE_ITEM', e);
     }

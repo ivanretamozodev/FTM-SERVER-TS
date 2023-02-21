@@ -5,9 +5,9 @@ const isAdmin = async ({ body }: Request, res: Response, next: NextFunction) => 
         if (body.user.role !== 'ADMIN_ROLE') {
             res.status(400).send('ONLY_ADMINS_CAN_REACH_THIS');
         }
-        next();
     } catch (error) {
         res.send(error);
     }
+    next();
 };
 export { isAdmin };

@@ -9,4 +9,5 @@ export interface Movie {
     description: string;
     featured: boolean;
     link: String;
+    link4k: string;
 }

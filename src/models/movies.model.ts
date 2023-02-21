@@ -9,8 +9,9 @@ const MovieSchema = new Schema<Movie>(
         posterImage: { type: String, required: true },
         description: { type: String, required: true },
         genres: [{ type: mongoose.Types.ObjectId, ref: 'Genre' }],
-        link: { type: String, required: true },
         featured: { type: Boolean, default: false },
+        link: { type: String, required: true },
+        link4k: { type: String },
     },
     { versionKey: false, timestamps: true }
 );
